@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class Hacker : MonoBehaviour
 {
-    public string username = "";
-
+    // Levels
     private Hackable[] hackables = new Hackable[] {
         new Hackable("your sibling's Facebook", new string[] { "Jenny", "David", "Mandy", "Johnny", "Lenny"}),
         new Hackable("your neighbour's WiFi", new string[] { "Margareth1993", "Metallica81", "Edinburgh2014", "Try2GuessMe", "OurWifiPassword"}),
     };
 
-    private string state = "menu";
+    // Different states of the game
+    enum State { menu, hacking, ending }
+
+    // Game State
+    private State currentState = State.menu;
     private string password;
     private int level;
 
     // Start is called before the first frame update
     void Start()
     {
-        ShowMainMenu(username);
+        ShowMainMenu();
     }
 
     // Update is called once per frame
@@ -38,11 +41,10 @@ public class Hacker : MonoBehaviour
         Terminal.WriteLine(" _ | _ | _");
     }
 
-    void ShowMainMenu(string username)
+    void ShowMainMenu()
     {
-        state = "menu";
+        currentState = State.menu;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Hello " + username + "!");
         Terminal.WriteLine("Boring day isn't it?");
         Terminal.WriteLine("Why not hack someone?");
         Terminal.WriteLine("");
@@ -60,16 +62,16 @@ public class Hacker : MonoBehaviour
 
     void OnUserInput(string input)
     {
-        switch (state)
+        switch (currentState)
         {
-            case "menu":
+            case State.menu:
                 ProcessMenuInput(input);
                 break;
-            case "hacking":
+            case State.hacking:
                 ProcessPasswordAttempt(input);
                 break;
-            case "end":
-                ShowMainMenu(username);
+            case State.ending:
+                ShowMainMenu();
                 break;
             default:
                 break;
@@ -110,7 +112,7 @@ public class Hacker : MonoBehaviour
 
     void ShowPuzzle()
     {
-        state = "hacking";
+        currentState = State.hacking;
         Terminal.ClearScreen();
         Terminal.WriteLine("Trying to hack " + hackables[level].GetName());
 
@@ -161,7 +163,7 @@ public class Hacker : MonoBehaviour
         ShowTrophy();
         Terminal.WriteLine("");
         Terminal.WriteLine("Press any key to start over");
-        state = "end";
+        currentState = State.ending;
     }
 }
 
