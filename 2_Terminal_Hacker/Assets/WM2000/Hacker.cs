@@ -5,10 +5,7 @@ using UnityEngine;
 public class Hacker : MonoBehaviour
 {
     // Levels
-    private Hackable[] hackables = new Hackable[] {
-        new Hackable("your sibling's Facebook", new string[] { "Jenny", "David", "Mandy", "Johnny", "Lenny"}),
-        new Hackable("your neighbour's WiFi", new string[] { "Margareth1993", "Metallica81", "Edinburgh2014", "Try2GuessMe", "OurWifiPassword"}),
-    };
+    private Hackable[] hackables;
 
     // Different states of the game
     enum State { menu, hacking, ending }
@@ -21,6 +18,10 @@ public class Hacker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hackables = new Hackable[] {
+            new SiblingJournal(),
+            new NeighbourWifi()
+        };
         ShowMainMenu();
     }
 
@@ -30,23 +31,12 @@ public class Hacker : MonoBehaviour
         
     }
 
-    void ShowTrophy()
-    {
-        Terminal.WriteLine("  _______");
-        Terminal.WriteLine(" |       |");
-        Terminal.WriteLine("(|       |)");
-        Terminal.WriteLine(" |       |");
-        Terminal.WriteLine("  \\     /");
-        Terminal.WriteLine("   `---'");
-        Terminal.WriteLine(" _ | _ | _");
-    }
-
     void ShowMainMenu()
     {
         currentState = State.menu;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Boring day isn't it?");
-        Terminal.WriteLine("Why not hack someone?");
+        Terminal.WriteLine("Feb 2nd, 2007");
+        Terminal.WriteLine("\tBoring day isn't it?");
         Terminal.WriteLine("");
 
         ShowOptions();
@@ -62,6 +52,9 @@ public class Hacker : MonoBehaviour
 
     void OnUserInput(string input)
     {
+        if (ProcessGeneralCommand(input)) {
+            return;
+        }
         switch (currentState)
         {
             case State.menu:
@@ -71,7 +64,6 @@ public class Hacker : MonoBehaviour
                 ProcessPasswordAttempt(input);
                 break;
             case State.ending:
-                ShowMainMenu();
                 break;
             default:
                 break;
@@ -99,6 +91,17 @@ public class Hacker : MonoBehaviour
             this.level = level;
             ShowPuzzle();
         }
+    }
+
+    bool ProcessGeneralCommand(string input)
+    {
+        if (input == "menu")
+        {
+            ShowMainMenu();
+            return true;
+        }
+
+        return false;
     }
 
     void ShowLevelSelectionError()
@@ -131,9 +134,7 @@ public class Hacker : MonoBehaviour
 
     string GetPassword()
     {
-        var passwords = hackables[level].GetPaswords();
-        var randomIndex = (int) Random.Range(0, passwords.Length);
-        return passwords[randomIndex];
+        return hackables[level].GetPasword();
     }
 
     void ProcessPasswordAttempt(string input)
@@ -158,33 +159,10 @@ public class Hacker : MonoBehaviour
     void ShowVictory()
     {
         Terminal.ClearScreen();
-        Terminal.WriteLine("Congratulations!");
-        Terminal.WriteLine("You hacked into " + hackables[level].GetName());
-        ShowTrophy();
+        Terminal.WriteLine(hackables[level].GetWinMessage());
+
         Terminal.WriteLine("");
-        Terminal.WriteLine("Press any key to start over");
+        Terminal.WriteLine("Type menu to continue.");
         currentState = State.ending;
-    }
-}
-
-class Hackable
-{
-    private string name;
-    private string[] passwords;
-
-    public Hackable(string name, string[] passwords)
-    {
-        this.name = name;
-        this.passwords = passwords;
-    }
-
-    public string GetName()
-    {
-        return name;
-    }
-
-    public string[] GetPaswords()
-    {
-        return passwords;
     }
 }
