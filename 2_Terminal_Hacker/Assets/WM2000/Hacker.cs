@@ -36,8 +36,7 @@ public class Hacker : MonoBehaviour
         currentState = State.menu;
         Terminal.ClearScreen();
         Terminal.WriteLine("Feb 2nd, 2007");
-        Terminal.WriteLine("\tBoring day isn't it?");
-        Terminal.WriteLine("");
+        Terminal.WriteLine("    Boring day isn't it?");
 
         ShowOptions();
     }
@@ -46,6 +45,7 @@ public class Hacker : MonoBehaviour
     {
         for (int i = 0; i < hackables.Length; i++)
         {
+            Terminal.WriteLine("");
             Terminal.WriteLine("Press " + (i+1) + " for " + hackables[i].GetName());
         }
     }

@@ -12,7 +12,7 @@ interface Hackable
 
 class SiblingJournal : Hackable
 {
-    private const string name = "Your sibling's online journal";
+    private const string name = "your sibling's online journal";
     private Dictionary<string, string> passwords = new Dictionary<string, string>();
     private string[] passwordKeys;
     private readonly string[] winMessages = new string[]
@@ -22,8 +22,7 @@ class SiblingJournal : Hackable
     public SiblingJournal()
     {
         passwords.Add("Jenny",
-            @"
-Feb 2nd, 2003
+            @"Feb 2nd, 2003
     I went over to our neighbours for Margareth's birthday today.
     Can't believe she's 12 already!
 
@@ -32,8 +31,7 @@ Feb 2nd, 2003
     );
 
         passwords.Add("David",
-            @"
-Jul 17th, 2005
+            @"Jul 17th, 2005
     I don't understand what's going on with David.
     He's been avoiding me since that stupid argument with the Jeffersons.
 
@@ -41,16 +39,14 @@ Jul 17th, 2005
     They are nice people and they love their daughter."
     );
         passwords.Add("Mandy",
-            @"
-Feb 2nd, 2006
+            @"Feb 2nd, 2006
     I took Mandy over to the Jeffersons for Maggie's bday.
 
     It was nice. I like being around Mandy.
     She makes me happy."
     );
         passwords.Add("Johnny",
-            @"
-Jan 20th, 2007
+            @"Jan 20th, 2007
     I'm bored.
 
     I though I'd write a bit while waiting for Johnny.
@@ -58,14 +54,10 @@ Jan 20th, 2007
     He's ALWAYS late..."
     );
         passwords.Add("Lenny",
-            @"
-Feb 2nd, 2007
-    I woke up and I felt like writing.
-
-    Have to wait for Lenny to go to Maggie's birthday anyway.
+            @"Feb 2nd, 2007
+    I'm borded. Just waiting for Lenny to go to Maggie's birthday.
 
     I just hope she's ok, I heard some screaming coming from her house...
-
     Screw Lenny, I'm going over now to check on Maggie!
 "
     );
@@ -119,7 +111,7 @@ Feb 2nd, 2007
 
 class NeighbourWifi : Hackable
 {
-    private const string name = "Your neighbour's WiFi";
+    private const string name = "your neighbour's WiFi";
     private const string password = "Margareth1993";
     private bool alreadyWon = false;
 

@@ -48,26 +48,29 @@ public class DisplayBuffer
     {
         string output = "";
         int column = 1;
-        foreach (char c in str)
+        string[] lineArray = str.Split('\n');
+
+        foreach (string line in lineArray)
         {
-            if (column == width)
+            string[] wordArray = line.Split(' ');
+            foreach (string word in wordArray)
             {
-                output += '\n';
-                output += c;
-                column = 1;
+                if (column + word.Length >= width)
+                {
+                    output += '\n';
+                    column = 1;
+                }
+
+                output += word;
+                column += word.Length;
+                output += ' ';
+                column += 1;
             }
-            else if (c == '\n')
-            {
-                output += '\n';
-                column = 1;
-            }
-            else
-            {
-                output += c;
-                column++;
-            }
+            output += '\n';
+            column = 1;
         }
-        return output;
+        
+        return output.Remove(output.Length-1); // Remove extra whitespace
     }
 
     private string CutViewport(int height, string lines)
