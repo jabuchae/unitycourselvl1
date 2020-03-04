@@ -54,7 +54,7 @@ class SiblingJournal : Hackable
     );
         passwords.Add("Lenny",
             @"Feb 2nd, 2007
-    I'm borded. Just waiting for Lenny to go to Maggie's birthday.
+    I'm bored. Just waiting for Lenny to go to Maggie's birthday.
 
     I just hope she's ok, I heard some screaming coming from her house...
     Screw Lenny, I'm going over now to check on Maggie!"

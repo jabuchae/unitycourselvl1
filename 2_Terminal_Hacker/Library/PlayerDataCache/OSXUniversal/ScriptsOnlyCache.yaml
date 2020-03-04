@@ -7,8 +7,6 @@ ScriptsOnlyBuild:
     - Terminal
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
-    - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.TileDragAndDropManager
     Unity.Rider.Editor.dll:
@@ -50,19 +48,19 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11172}
+      Script: {instanceID: 11152}
     - Class: 114
-      Script: {instanceID: 11342}
+      Script: {instanceID: 11322}
     - Class: 114
-      Script: {instanceID: 11382}
+      Script: {instanceID: 11362}
     - Class: 114
-      Script: {instanceID: 11924}
+      Script: {instanceID: 11904}
     - Class: 114
-      Script: {instanceID: 12032}
+      Script: {instanceID: 12012}
     - Class: 114
-      Script: {instanceID: 12468}
+      Script: {instanceID: 12448}
     - Class: 114
-      Script: {instanceID: 12562}
+      Script: {instanceID: 12542}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
