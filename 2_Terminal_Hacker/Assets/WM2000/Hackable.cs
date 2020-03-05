@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
-interface Hackable
+public interface Hackable
 {
     string GetName();
     string GetPasword();
     string GetWinMessage();
+    void solved(Hacker hacker);
 }
 
-class SiblingJournal : Hackable
+class SisterJournal : Hackable
 {
-    private const string name = "a random entry on your sibling's online journal";
+    private const string name = "a random entry on your sister's online journal";
     private Dictionary<string, string> passwords = new Dictionary<string, string>();
     private string[] passwordKeys;
-    private readonly string[] winMessages = new string[]
-    {
-    };
 
-    public SiblingJournal()
+    public SisterJournal()
     {
         passwords.Add("Jenny",
             @"Feb 2nd, 2003
@@ -83,11 +81,12 @@ class SiblingJournal : Hackable
 
     public string GetWinMessage()
     {
-        var currentPassword = passwordKeys[0];
+        return passwords[passwordKeys[0]];
+    }
 
+    public void solved(Hacker hacker)
+    {
         passwordKeys = passwordKeys.Skip(1).ToArray(); // Remove the current key
-
-        return passwords[currentPassword];
     }
 }
 
@@ -95,7 +94,6 @@ class NeighbourWifi : Hackable
 {
     private const string name = "your neighbour's WiFi";
     private const string password = "Margareth1993";
-    private bool alreadyWon = false;
 
     public NeighbourWifi()
     {
@@ -113,7 +111,64 @@ class NeighbourWifi : Hackable
 
     public string GetWinMessage()
     {
-        alreadyWon = true;
         return "You've hacked into your neighbourh's WiFi and you are now in their local network.";
+    }
+
+    public void solved(Hacker hacker)
+    {
+        hacker.addHackable(new NeighbourSecurityCamera());
+    }
+}
+
+class NeighbourSecurityCamera : Hackable
+{
+    private const string name = "your neighbour's security cameras";
+    private Dictionary<string, string> passwords = new Dictionary<string, string>();
+    private string[] passwordKeys;
+
+    public NeighbourSecurityCamera()
+    {
+        passwords.Add("Kitchen",
+               @"TODO Kitchen"
+       );
+
+        passwords.Add("Bedroom",
+            @"TODO Bedroom"
+    );
+        passwords.Add("Livingroom",
+            @"TODO Livingroom"
+    );
+        passwords.Add("FrontPorch",
+            @"TODO Front Porch"
+    );
+
+        passwordKeys = RandomizePasswords();
+    }
+
+    private string[] RandomizePasswords()
+    {
+        string[] keys = new string[passwords.Keys.Count];
+        passwords.Keys.CopyTo(keys, 0);
+
+        return keys;
+    }
+    public string GetName()
+    {
+        return name;
+    }
+
+    public string GetPasword()
+    {
+        return passwordKeys[0];
+    }
+
+    public string GetWinMessage()
+    {
+        return passwords[GetPasword()];
+    }
+
+    public void solved(Hacker hacker)
+    {
+        passwordKeys = passwordKeys.Skip(1).ToArray(); // Remove the current key
     }
 }

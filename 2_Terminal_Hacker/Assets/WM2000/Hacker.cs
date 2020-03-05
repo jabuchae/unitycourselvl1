@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hacker : MonoBehaviour
 {
     // Levels
-    private Hackable[] hackables;
+    private List<Hackable> hackables;
 
     // Different states of the game
     enum State { menu, hacking, hackResult, journal, ending }
@@ -23,10 +23,9 @@ public class Hacker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hackables = new Hackable[] {
-            new SiblingJournal(),
-            new NeighbourWifi()
-        };
+        hackables = new List<Hackable>();
+        hackables.Add(new SisterJournal());
+        hackables.Add(new NeighbourWifi());
 
         journalEntries = new List<string>();
         currentState = State.menu;
@@ -53,7 +52,7 @@ public class Hacker : MonoBehaviour
 
     void ShowOptions()
     {
-        for (int i = 0; i < hackables.Length; i++)
+        for (int i = 0; i < hackables.Count; i++)
         {
             if (levelsSolved[i] < maxPuzzles[i])
             {
@@ -149,7 +148,7 @@ public class Hacker : MonoBehaviour
     void ProcessMenuInput(string input)
     {
         int level = -1;
-        for (int i = 0; i < hackables.Length; i++)
+        for (int i = 0; i < hackables.Count; i++)
         {
             if (input == (i+1).ToString())
             {
@@ -267,6 +266,7 @@ public class Hacker : MonoBehaviour
     void ShowVictory()
     {
         string winMessage = hackables[level].GetWinMessage();
+        hackables[level].solved(this);
 
         levelsSolved[level] += 1;
         if( level == 0)
@@ -299,10 +299,16 @@ public class Hacker : MonoBehaviour
     {
         Terminal.WriteLine(@"You got bored and went playing outside.
 
-Your sibling didn't come back home that night. Or any night afterwards.
+Your sister didn't come back home that night. Or any night afterwards.
 
 You never really knew what happened.
 Maybe if you had listened to her more while she was around you'd know...");
 
+    }
+
+
+    public void addHackable(Hackable hackable)
+    {
+        hackables.Add(hackable);
     }
 }
