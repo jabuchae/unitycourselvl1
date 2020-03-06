@@ -106,6 +106,6 @@ public class DisplayBuffer
 
     void OnCommand(string command)
     {
-        logLines.Add(command);
+        //logLines.Add(command);
     }
 }

@@ -58,6 +58,17 @@ class SisterJournal : Hackable
     Screw Lenny, I'm going over now to check on Maggie!"
     );
 
+        passwords.Add("Maggie",
+            @"Feb 2nd, 2007
+    Maggie told her parents about us today... it didn't go well.
+
+Her father almost destroyed the livingroom with his outburst. Luckily for us, Maggie's mother couldn't take it and went crying to her room. Her father went to check on her and took that change to barricade them in and escape.
+
+I wish I could have said goodby to my family, but I fear they'll react like the Jeffersons did.
+
+Maybe when things settle. Maybe..."
+    );
+
 
         passwordKeys = RandomizePasswords();
     }
@@ -116,7 +127,6 @@ class NeighbourWifi : Hackable
 
     public void solved(Hacker hacker)
     {
-        hacker.addHackable(new NeighbourSecurityCamera());
     }
 }
 
@@ -129,17 +139,35 @@ class NeighbourSecurityCamera : Hackable
     public NeighbourSecurityCamera()
     {
         passwords.Add("Kitchen",
-               @"TODO Kitchen"
+               @"You hack into the kitchen security camera.
+
+There's a pile of dirty dishes in the sink and a chocolate cake right in the middle of the kitchen table.
+
+As the camrea turns left, you manage to catch a glimps of someone going upstairs."
        );
 
         passwords.Add("Bedroom",
-            @"TODO Bedroom"
+            @"You hack into the bedroom security camera.
+
+You see Ms. Jefferson sitting on the edge of the bed, wiping while holding the very end of her necklace in both hands.
+
+Mr. Jefferson is there too. Charging toward the bedroom door and hitting it in every way possible, trying to burst it open.
+
+They are trapped."
     );
         passwords.Add("Livingroom",
-            @"TODO Livingroom"
+            @"The livingroom looks quite bad.
+
+You notice the front door is open.
+
+There's glass in the floor and a lamp is smashed against the couch."
     );
-        passwords.Add("FrontPorch",
-            @"TODO Front Porch"
+        passwords.Add("Porch",
+            @"You see a small portion of the porch, from the top of the door.
+
+There's your sister.
+
+You see her only for an instant as someone is grabbing her by the hand as she is dragged outside the house."
     );
 
         passwordKeys = RandomizePasswords();
@@ -170,5 +198,10 @@ class NeighbourSecurityCamera : Hackable
     public void solved(Hacker hacker)
     {
         passwordKeys = passwordKeys.Skip(1).ToArray(); // Remove the current key
+
+        if (passwordKeys.Length == 0)
+        {
+            hacker.addJournalEntry();
+        }
     }
 }

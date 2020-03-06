@@ -247,6 +247,10 @@ public class Hacker : MonoBehaviour
         if (input == password)
         {
             ShowVictory();
+            if( ShouldEnableCameras())
+            {
+                EnableCameras();
+            }
         } else
         {
             ShowRetry();
@@ -265,6 +269,8 @@ public class Hacker : MonoBehaviour
 
     void ShowVictory()
     {
+        currentState = State.hackResult;
+
         string winMessage = hackables[level].GetWinMessage();
         hackables[level].solved(this);
 
@@ -282,7 +288,6 @@ public class Hacker : MonoBehaviour
             Terminal.WriteLine("Type journal to access all entries.");
         }
         Terminal.WriteLine("Type menu to continue.");
-        currentState = State.hackResult;
     }
 
     void ShowEnding()
@@ -307,8 +312,18 @@ Maybe if you had listened to her more while she was around you'd know...");
     }
 
 
-    public void addHackable(Hackable hackable)
+    public bool ShouldEnableCameras()
     {
-        hackables.Add(hackable);
+        return levelsSolved[0] == maxPuzzles[0] && levelsSolved[1] == maxPuzzles[1];
+    }
+
+    public void EnableCameras()
+    {
+        hackables.Add(new NeighbourSecurityCamera());
+    }
+
+    public void addJournalEntry()
+    {
+        maxPuzzles[0] += 1;
     }
 }
