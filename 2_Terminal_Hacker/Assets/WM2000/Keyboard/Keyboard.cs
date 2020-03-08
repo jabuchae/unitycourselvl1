@@ -32,7 +32,7 @@ public class Keyboard : MonoBehaviour
         {
             PlayRandomSound();
         }
-        if (connectedToTerminal)
+        if (connectedToTerminal && Terminal.InputEnabled())
         {
             connectedToTerminal.ReceiveFrameInput(Input.inputString);
         }

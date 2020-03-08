@@ -8,6 +8,8 @@ public class Terminal : MonoBehaviour
 
     static Terminal primaryTerminal;
 
+    private bool inputEnabled = true;
+
     private void Awake()
     {
         if (primaryTerminal == null) { primaryTerminal = this; } // Be the one
@@ -34,6 +36,26 @@ public class Terminal : MonoBehaviour
     public static void WriteLine(string line)
     {
         primaryTerminal.displayBuffer.WriteLine(line);
+    }
+
+    public static void WriteChar(string character)
+    {
+        primaryTerminal.displayBuffer.WirteChar(character);
+    }
+
+    public static void EnableInput()
+    {
+        primaryTerminal.inputEnabled = true;
+    }
+
+    public static void DisableInput()
+    {
+        primaryTerminal.inputEnabled = false;
+    }
+
+    public static bool InputEnabled()
+    {
+        return primaryTerminal.inputEnabled;
     }
 
     public void NotifyCommandHandlers(string input)

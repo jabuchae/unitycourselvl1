@@ -18,7 +18,11 @@ public class Hacker : MonoBehaviour
     private List<string> journalEntries;
 
     private int[] levelsSolved;
-    private readonly int[] maxPuzzles = { 5, 1, 4 };
+    private readonly int[] maxPuzzles = { 4, 1, 4 };
+
+    // Faster menus
+    private bool mainMenuShown = false;
+    private bool hackAttemptShown = false;
 
     // Start is called before the first frame update
     void Start()
@@ -42,12 +46,15 @@ public class Hacker : MonoBehaviour
 
     void ShowMainMenu()
     {
+        PacedWriter.usePacing = !mainMenuShown;
         currentState = State.menu;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Feb 2nd, 2007");
-        Terminal.WriteLine("    Boring day isn't it?");
-        Terminal.WriteLine("");
+        PacedWriter.WriteLine("Feb 1st, 2007");
+        PacedWriter.WriteLine("    Boring day isn't it?");
+        PacedWriter.WriteLine("");
         ShowOptions();
+        PacedWriter.usePacing = true;
+        mainMenuShown = true;
     }
 
     void ShowOptions()
@@ -56,8 +63,8 @@ public class Hacker : MonoBehaviour
         {
             if (levelsSolved[i] < maxPuzzles[i])
             {
-                Terminal.WriteLine("Press " + (i + 1) + " to hack into " + hackables[i].GetName());
-                Terminal.WriteLine("");
+                PacedWriter.WriteLine("Press " + (i + 1) + " to hack into " + hackables[i].GetName());
+                PacedWriter.WriteLine("");
             }
         }
 
@@ -67,7 +74,7 @@ public class Hacker : MonoBehaviour
     void ShowMenuHint()
     {
         string journalAccess = levelsSolved[0] >= 1 ? ", journal" : "";
-        Terminal.WriteLine("You can always type menu" + journalAccess + " or quit.");
+        PacedWriter.WriteLine("You can always type menu" + journalAccess + " or quit.");
     }
 
     void OnUserInput(string input)
@@ -130,6 +137,7 @@ public class Hacker : MonoBehaviour
         clearText = clearText.Replace("\n", "");
         clearText = clearText.Replace(" ", "");
         clearText = clearText.Replace(",", "");
+        clearText = clearText.Replace("1st", "1");
         clearText = clearText.Replace("2nd", "2");
         clearText = clearText.Replace("20th", "20");
         clearText = clearText.Replace("17th", "17");
@@ -139,10 +147,12 @@ public class Hacker : MonoBehaviour
 
     void ShowJournalEntry(string entry)
     {
+        PacedWriter.usePacing = false;
         Terminal.ClearScreen();
-        Terminal.WriteLine(entry);
-        Terminal.WriteLine("");
-        Terminal.WriteLine("Type menu to continue or journal to see more entries.");
+        PacedWriter.WriteLine(entry);
+        PacedWriter.WriteLine("");
+        PacedWriter.WriteLine("Type menu to continue or journal to see more entries.");
+        PacedWriter.usePacing = true;
     }
 
     void ProcessMenuInput(string input)
@@ -150,7 +160,7 @@ public class Hacker : MonoBehaviour
         int level = -1;
         for (int i = 0; i < hackables.Count; i++)
         {
-            if (input == (i+1).ToString())
+            if (input == (i+1).ToString() && levelsSolved[i] < maxPuzzles[i])
             {
                 level = i;
             }
@@ -194,14 +204,14 @@ public class Hacker : MonoBehaviour
     {
         currentState = State.journal;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Select the entry you want to revisit:");
+        PacedWriter.WriteLine("Select the entry you want to revisit:");
         foreach (string entry in journalEntries)
         {
             string firstLine = GetFirstLine(entry);
-            Terminal.WriteLine("    " + firstLine);
+            PacedWriter.WriteLine("    " + firstLine);
         }
 
-        Terminal.WriteLine("");
+        PacedWriter.WriteLine("");
     }
 
     string GetFirstLine(string text)
@@ -212,29 +222,35 @@ public class Hacker : MonoBehaviour
     void ShowLevelSelectionError()
     {
         Terminal.ClearScreen();
-        Terminal.WriteLine("Invalid option selected.");
-        Terminal.WriteLine("");
-        Terminal.WriteLine("Choose one from the following:");
+        PacedWriter.WriteLine("Invalid option selected.");
+        PacedWriter.WriteLine("");
+        PacedWriter.WriteLine("Choose one from the following:");
         ShowOptions();
     }
 
     void ShowPuzzle()
     {
+
+        PacedWriter.usePacing = !hackAttemptShown;
+
         currentState = State.hacking;
         Terminal.ClearScreen();
-        Terminal.WriteLine("Trying to hack " + hackables[level].GetName());
-        Terminal.WriteLine("Error: password could not be fully hacked.");
+        PacedWriter.WriteLine("Trying to hack " + hackables[level].GetName());
+        PacedWriter.WriteLine("Error: password could not be fully hacked.");
         password = GetPassword();
 
         ShowPasswordHint(password);
+
+        PacedWriter.usePacing = true;
+        hackAttemptShown = true;
     }
 
     void ShowPasswordHint(string password)
     {
-        Terminal.WriteLine("Password retrieved but the letters are scrambled:");
-        Terminal.WriteLine(password.Anagram());
-        Terminal.WriteLine("");
-        Terminal.WriteLine("Please input the correct password:");
+        PacedWriter.WriteLine("Password retrieved but the letters are scrambled:");
+        PacedWriter.WriteLine(password.Anagram());
+        PacedWriter.WriteLine("");
+        PacedWriter.WriteLine("Please input the correct password:");
     }
 
     string GetPassword()
@@ -260,9 +276,9 @@ public class Hacker : MonoBehaviour
     void ShowRetry()
     {
         Terminal.ClearScreen();
-        Terminal.WriteLine("Password is not correct");
-        Terminal.WriteLine("You can always type menu to go back");
-        Terminal.WriteLine("");
+        PacedWriter.WriteLine("Password is not correct");
+        PacedWriter.WriteLine("You can always type menu to go back");
+        PacedWriter.WriteLine("");
         ShowPasswordHint(password);
         
     }
@@ -281,13 +297,13 @@ public class Hacker : MonoBehaviour
         }
 
         Terminal.ClearScreen();
-        Terminal.WriteLine(winMessage);
-        Terminal.WriteLine("");
+        PacedWriter.WriteLine(winMessage);
+        PacedWriter.WriteLine("");
         if(level == 0)
         {
-            Terminal.WriteLine("Type journal to access all entries.");
+            PacedWriter.WriteLine("Type journal to access all entries.");
         }
-        Terminal.WriteLine("Type menu to continue.");
+        PacedWriter.WriteLine("Type menu to continue.");
     }
 
     void ShowEnding()
@@ -296,13 +312,13 @@ public class Hacker : MonoBehaviour
 
         Terminal.ClearScreen();
         ShowUnknownEnding();
-        Terminal.WriteLine("");
-        Terminal.WriteLine("Press enter to quit the game");
+        PacedWriter.WriteLine("");
+        PacedWriter.WriteLine("Press enter to quit the game");
     }
 
     void ShowUnknownEnding()
     {
-        Terminal.WriteLine(@"You got bored and went playing outside.
+        PacedWriter.WriteLine(@"You got bored and went playing outside.
 
 Your sister didn't come back home that night. Or any night afterwards.
 

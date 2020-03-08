@@ -18,55 +18,55 @@ class SisterJournal : Hackable
 
     public SisterJournal()
     {
-        passwords.Add("Jenny",
-            @"Feb 2nd, 2003
-    I went over to our neighbours for Margareth's birthday today.
-    Can't believe she's 12 already!
+        passwords.Add("Jimmy",
+            @"Feb 2nd, 2005
+    I went over to our neighbours for Margareth's sweet sixteen.
 
-    Jenny came along too.
-    We had a lot of fun and ate a lot of cake."
+    Jimmy came along too.
+    We had a so much fun and we ate A LOT."
     );
 
         passwords.Add("David",
             @"Jul 17th, 2005
-    I don't understand David.
-    He's been avoiding me since that stupid argument with the Jeffersons.
+    I don't understand David...
+    He's so wrong about the Jeffersons.
 
     I don't care what he thinks.
     They are nice people and they love Margareth."
     );
         passwords.Add("Mandy",
             @"Feb 2nd, 2006
-    I took Mandy over to the Jeffersons for Margareth's birthday.
+    I took Mandy over to the Jeffersons for Maggie's birthday today.
 
-    It was nice. I like being around Mandy.
-    She makes me happy."
+    It was... ok I guess?
+
+    Maggie was a bit distant.
+    I think she didn't like Mandy."
     );
-        passwords.Add("Johnny",
-            @"Jan 20th, 2007
-    I'm bored.
-
-    I though I'd write a bit while waiting for Johnny.
-
-    He's ALWAYS late..."
-    );
-        passwords.Add("Lenny",
-            @"Feb 2nd, 2007
-    I'm bored. Just waiting for Lenny to go to Maggie's birthday.
+        passwords.Add("Birthday",
+            @"Feb 1st, 2007
+    Got a present for Maggie at the mall.
+    I think she'll like it!
 
     I just hope she's ok, I heard some screaming coming from her house...
-    Screw Lenny, I'm going over now to check on Maggie!"
+
+    I'd better go check on her."
     );
 
         passwords.Add("Maggie",
-            @"Feb 2nd, 2007
-    Maggie told her parents about us today... it didn't go well.
+            @"Feb 1st, 2007
+    Maggie told her parents about us today...
+It didn't go well.
 
-Her father almost destroyed the livingroom with his outburst. Luckily for us, Maggie's mother couldn't take it and went crying to her room. Her father went to check on her and took that change to barricade them in and escape.
+Her father almost destroyed the livingroom with his outburst.
+Luckily for us, Maggie's mother couldn't take it and went crying to her room.
+Her father went to check on her and took that change to barricade them in and escape.
 
 I wish I could have said goodby to my family, but I fear they'll react like the Jeffersons did.
 
-Maybe when things settle. Maybe..."
+Maybe when things settle.
+
+Maybe..."
     );
 
 
@@ -139,21 +139,17 @@ class NeighbourSecurityCamera : Hackable
     public NeighbourSecurityCamera()
     {
         passwords.Add("Kitchen",
-               @"You hack into the kitchen security camera.
+               @"There's a pile of dirty dishes in the sink and a chocolate cake right in the middle of the kitchen table.
 
-There's a pile of dirty dishes in the sink and a chocolate cake right in the middle of the kitchen table.
-
-As the camrea turns left, you manage to catch a glimps of someone going upstairs."
+You manage to catch a glimpse of someone going upstairs."
        );
 
         passwords.Add("Bedroom",
-            @"You hack into the bedroom security camera.
+            @"You see Ms. Jefferson sitting on the edge of the bed.
+Weeping while holding the very end of her necklace in both hands.
 
-You see Ms. Jefferson sitting on the edge of the bed, wiping while holding the very end of her necklace in both hands.
-
-Mr. Jefferson is there too. Charging toward the bedroom door and hitting it in every way possible, trying to burst it open.
-
-They are trapped."
+Mr. Jefferson is there too.
+Charging toward the bedroom door and hitting it in every way possible, trying to burst it open."
     );
         passwords.Add("Livingroom",
             @"The livingroom looks quite bad.

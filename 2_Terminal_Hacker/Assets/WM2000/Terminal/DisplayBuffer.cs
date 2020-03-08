@@ -16,12 +16,27 @@ public class DisplayBuffer
 
     public void WriteLine(string line)
     {
-        logLines.Add(line);
+        logLines.Add(line + '\n');
     }
 
     public void Clear()
     {
         logLines = new List<string>();
+    }
+
+    public void WirteChar(string character)
+    {
+        if (logLines.Count == 0)
+        {
+            logLines.Add(character);
+        }
+        else
+        {
+            int lastIndex = logLines.Count - 1;
+            string lastLine = logLines[lastIndex];
+            lastLine += character;
+            logLines[lastIndex] = lastLine;
+        }
     }
 
     public string GetDisplayBuffer(float time, int width, int height)
@@ -37,7 +52,7 @@ public class DisplayBuffer
         string output = "";
         foreach (string line in logLines)
         {
-            output += line + '\n';
+            output += line;
         }
         output += inputBuffer.GetCurrentInputLine();
         output += GetFlashingCursor(time);
@@ -94,7 +109,7 @@ public class DisplayBuffer
 
     private char GetFlashingCursor(float time)
     {
-        if (time % (2 * FLASH_INTERVAL) <= FLASH_INTERVAL)
+        if (time % (2 * FLASH_INTERVAL) <= FLASH_INTERVAL && Terminal.InputEnabled())
         {
             return '_';
         }
