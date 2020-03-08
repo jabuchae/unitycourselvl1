@@ -23,10 +23,19 @@ public class Hacker : MonoBehaviour
     // Faster menus
     private bool mainMenuShown = false;
     private bool hackAttemptShown = false;
+    private bool retryShown = false;
+    private bool journalsShown = false;
+
+    // Audio clips
+    private AudioSource audioSource;
+    public AudioClip successfulHack;
+    public AudioClip wrongHack;
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         hackables = new List<Hackable>();
         hackables.Add(new SisterJournal());
         hackables.Add(new NeighbourWifi());
@@ -34,6 +43,8 @@ public class Hacker : MonoBehaviour
         journalEntries = new List<string>();
         currentState = State.menu;
         levelsSolved = new int[] {0,0,0};
+
+        Terminal.PlayNormalMusic();
 
         ShowMainMenu();
     }
@@ -50,7 +61,10 @@ public class Hacker : MonoBehaviour
         currentState = State.menu;
         Terminal.ClearScreen();
         PacedWriter.WriteLine("Feb 1st, 2007");
-        PacedWriter.WriteLine("    Boring day isn't it?");
+        if (!mainMenuShown) {
+            PacedWriter.WriteLine("    Boring day isn't it?");
+        }
+
         PacedWriter.WriteLine("");
         ShowOptions();
         PacedWriter.usePacing = true;
@@ -125,6 +139,7 @@ public class Hacker : MonoBehaviour
         {
             if (ClearFormat(input) == ClearFormat(GetFirstLine(entry)))
             {
+                PlayOk();
                 ShowJournalEntry(entry);
                 break;
             }
@@ -168,10 +183,12 @@ public class Hacker : MonoBehaviour
 
         if (level == -1)
         {
+            PlayError();
             ShowLevelSelectionError();
         }
         else
         {
+            PlayOk();
             this.level = level;
             ShowPuzzle();
         }
@@ -181,27 +198,34 @@ public class Hacker : MonoBehaviour
     {
         if (input == "menu")
         {
+            PlayOk();
             ShowMainMenu();
             return true;
         }
 
         if (input == "journal" && levelsSolved[0] >= 1)
         {
+            PlayOk();
             ShowJournalSelection();
             return true;
         }
 
         if (input == "exit" || input == "quit" || input == "leave")
         {
+            PlayOk();
             ShowEnding();
             return true;
         }
+
+        PlayError();
 
         return false;
     }
 
     void ShowJournalSelection()
     {
+        PacedWriter.usePacing = !journalsShown;
+
         currentState = State.journal;
         Terminal.ClearScreen();
         PacedWriter.WriteLine("Select the entry you want to revisit:");
@@ -212,6 +236,9 @@ public class Hacker : MonoBehaviour
         }
 
         PacedWriter.WriteLine("");
+
+        PacedWriter.usePacing = true;
+        journalsShown = true;
     }
 
     string GetFirstLine(string text)
@@ -262,6 +289,7 @@ public class Hacker : MonoBehaviour
     {
         if (input == password)
         {
+            PlayOk();
             ShowVictory();
             if( ShouldEnableCameras())
             {
@@ -269,22 +297,42 @@ public class Hacker : MonoBehaviour
             }
         } else
         {
+            PlayError();
             ShowRetry();
         }
     }
 
+    void PlayError()
+    {
+        audioSource.clip = wrongHack;
+        audioSource.Play();
+    }
+
     void ShowRetry()
     {
+        PacedWriter.usePacing = !retryShown;
+
         Terminal.ClearScreen();
         PacedWriter.WriteLine("Password is not correct");
         PacedWriter.WriteLine("You can always type menu to go back");
         PacedWriter.WriteLine("");
         ShowPasswordHint(password);
+
+        PacedWriter.usePacing = true;
+        retryShown = true;
         
+    }
+
+    void PlayOk()
+    {
+
+        audioSource.clip = successfulHack;
+        audioSource.Play();
     }
 
     void ShowVictory()
     {
+
         currentState = State.hackResult;
 
         string winMessage = hackables[level].GetWinMessage();

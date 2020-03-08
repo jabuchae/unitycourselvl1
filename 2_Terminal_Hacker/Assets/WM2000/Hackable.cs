@@ -97,6 +97,12 @@ Maybe..."
 
     public void solved(Hacker hacker)
     {
+
+        if (passwordKeys.Length == 2)
+        {
+            Terminal.PlayCameraMusic();
+        }
+
         passwordKeys = passwordKeys.Skip(1).ToArray(); // Remove the current key
     }
 }
@@ -104,7 +110,7 @@ Maybe..."
 class NeighbourWifi : Hackable
 {
     private const string name = "your neighbour's WiFi";
-    private const string password = "Margareth1993";
+    private const string password = "Margareth1989";
 
     public NeighbourWifi()
     {

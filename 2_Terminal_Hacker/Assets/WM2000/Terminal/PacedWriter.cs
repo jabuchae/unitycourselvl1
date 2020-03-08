@@ -8,8 +8,8 @@ public class PacedWriter : MonoBehaviour
     static PacedWriter writer;
 
     // Writing pacing
-    private const float defaultPacing = 0.02f;
-    private const float defaultDelay = 0.3f;
+    private const float defaultPacing = 0; //0.02f;
+    private const float defaultDelay = 0; //0.3f;
 
     private Queue<PacedContent> contents;
     private PacedContent currentContent;
