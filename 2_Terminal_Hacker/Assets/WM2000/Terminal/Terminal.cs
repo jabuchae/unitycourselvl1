@@ -9,35 +9,9 @@ public class Terminal : MonoBehaviour
     static Terminal primaryTerminal;
 
     private bool inputEnabled = true;
-
-    public AudioClip normalMusic;
-    public AudioClip cameraMusic;
-    public AudioClip creditsMusic;
-
-    private AudioSource audioSource;
-
-    static public void PlayNormalMusic()
-    {
-        primaryTerminal.audioSource.clip = primaryTerminal.normalMusic;
-        primaryTerminal.audioSource.Play();
-    }
-
-    static public void PlayCameraMusic()
-    {
-        primaryTerminal.audioSource.clip = primaryTerminal.cameraMusic;
-        primaryTerminal.audioSource.Play();
-        primaryTerminal.audioSource.volume -= 0.10f;
-    }
-
-    static public void PlayCreditsMusic()
-    {
-        primaryTerminal.audioSource.clip = primaryTerminal.creditsMusic;
-        primaryTerminal.audioSource.Play();
-    }
-
+    
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
         if (primaryTerminal == null) { primaryTerminal = this; } // Be the one
         inputBuffer = new InputBuffer();
         displayBuffer = new DisplayBuffer(inputBuffer);

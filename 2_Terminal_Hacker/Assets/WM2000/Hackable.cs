@@ -66,7 +66,17 @@ I wish I could have said goodby to my family, but I fear they'll react like the 
 
 Maybe when things settle.
 
-Maybe..."
+Maybe...
+
+
+
+
+THE END
+
+
+
+
+"
     );
 
 
@@ -100,8 +110,14 @@ Maybe..."
 
         if (passwordKeys.Length == 2)
         {
-            Terminal.PlayCameraMusic();
+            BackgroundMusic.PlayCameraMusic();
         }
+
+        if (passwordKeys.Length == 1)
+        {
+            BackgroundMusic.PlayCreditsMusic();
+        }
+
 
         passwordKeys = passwordKeys.Skip(1).ToArray(); // Remove the current key
     }
@@ -162,7 +178,7 @@ Charging toward the bedroom door and hitting it in every way possible, trying to
 
 You notice the front door is open.
 
-There's glass in the floor and a lamp is smashed against the couch."
+There's glass on the floor and a lamp is smashed against the couch."
     );
         passwords.Add("Porch",
             @"You see a small portion of the porch, from the top of the door.

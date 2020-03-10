@@ -14,6 +14,7 @@ public class Hacker : MonoBehaviour
     private State currentState;
     private string password;
     private int level;
+    private bool endingOnEntryShown = false;
 
     private List<string> journalEntries;
 
@@ -27,15 +28,13 @@ public class Hacker : MonoBehaviour
     private bool journalsShown = false;
 
     // Audio clips
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     public AudioClip successfulHack;
     public AudioClip wrongHack;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-
         hackables = new List<Hackable>();
         hackables.Add(new SisterJournal());
         hackables.Add(new NeighbourWifi());
@@ -44,7 +43,7 @@ public class Hacker : MonoBehaviour
         currentState = State.menu;
         levelsSolved = new int[] {0,0,0};
 
-        Terminal.PlayNormalMusic();
+        BackgroundMusic.PlayNormalMusic();
 
         ShowMainMenu();
     }
@@ -347,11 +346,20 @@ public class Hacker : MonoBehaviour
         Terminal.ClearScreen();
         PacedWriter.WriteLine(winMessage);
         PacedWriter.WriteLine("");
-        if(level == 0)
+
+        if (level == 0 && endingOnEntryShown)
         {
-            PacedWriter.WriteLine("Type journal to access all entries.");
+            currentState = State.ending;
+            PacedWriter.WriteLine("Press enter to quit the game");
+        } else
+        {
+            if (level == 0)
+            {
+                PacedWriter.WriteLine("Type journal to access all entries.");
+            }
+            PacedWriter.WriteLine("Type menu to continue.");
         }
-        PacedWriter.WriteLine("Type menu to continue.");
+        
     }
 
     void ShowEnding()
@@ -389,5 +397,6 @@ Maybe if you had listened to her more while she was around you'd know...");
     public void addJournalEntry()
     {
         maxPuzzles[0] += 1;
+        endingOnEntryShown = true;
     }
 }
