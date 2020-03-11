@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "2_Terminal_Hacker",
+"productVersion": "0.1",
+"dataUrl": "A Hacking Story (Web).data.unityweb",
+"wasmCodeUrl": "A Hacking Story (Web).wasm.code.unityweb",
+"wasmFrameworkUrl": "A Hacking Story (Web).wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.3.3f1"
+}
