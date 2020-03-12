@@ -274,7 +274,8 @@ PrefabInstance:
       propertyPath: creditsMusic
       value: 
       objectReference: {fileID: 8300000, guid: 7ce9faad7d421404f95e250ed1ff5a3a, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 82675636927433908, guid: c46548f7b668a78409fa399c095e4e6b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c46548f7b668a78409fa399c095e4e6b, type: 3}
 --- !u!1 &1893796361 stripped
 GameObject:

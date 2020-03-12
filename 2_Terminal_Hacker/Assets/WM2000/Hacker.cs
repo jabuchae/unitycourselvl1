@@ -24,7 +24,6 @@ public class Hacker : MonoBehaviour
     // Faster menus
     private bool mainMenuShown = false;
     private bool hackAttemptShown = false;
-    private bool retryShown = false;
     private bool journalsShown = false;
 
     // Audio clips
@@ -309,7 +308,7 @@ public class Hacker : MonoBehaviour
 
     void ShowRetry()
     {
-        PacedWriter.usePacing = !retryShown;
+        PacedWriter.usePacing = false;
 
         Terminal.ClearScreen();
         PacedWriter.WriteLine("Password is not correct");
@@ -318,7 +317,6 @@ public class Hacker : MonoBehaviour
         ShowPasswordHint(password);
 
         PacedWriter.usePacing = true;
-        retryShown = true;
         
     }
 
@@ -344,7 +342,14 @@ public class Hacker : MonoBehaviour
         }
 
         Terminal.ClearScreen();
-        PacedWriter.WriteLine(winMessage);
+        if (level == 0 && endingOnEntryShown)
+        {
+            PacedWriter.WriteLine(winMessage, 0.5f, 0.04f);
+        } else
+        {
+            PacedWriter.WriteLine(winMessage);
+        }
+
         PacedWriter.WriteLine("");
 
         if (level == 0 && endingOnEntryShown)

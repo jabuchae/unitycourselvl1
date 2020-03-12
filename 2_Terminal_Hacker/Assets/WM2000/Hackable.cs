@@ -62,7 +62,7 @@ Her father almost destroyed the livingroom with his outburst.
 Luckily for us, Maggie's mother couldn't take it and went crying to her room.
 Her father went to check on her and took that change to barricade them in and escape.
 
-I wish I could have said goodby to my family, but I fear they'll react like the Jeffersons did.
+I wish I could have said goodbye to my family, but I fear they'll react like the Jeffersons did.
 
 Maybe when things settle.
 

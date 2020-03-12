@@ -13,7 +13,7 @@ public class BackgroundMusic : MonoBehaviour
     public AudioSource mainAudioSource;
     public AudioSource secondaryAudioSource;
 
-    private const float switchTime = 1f;
+    private float switchTime = 1f;
     private float switchingTimePassed = 0;
 
     // Different states of the game
@@ -54,6 +54,7 @@ public class BackgroundMusic : MonoBehaviour
 
     static public void PlayCreditsMusic()
     {
+        backgroundMusic.switchTime = 1.5f;
         backgroundMusic.switchToClip(backgroundMusic.creditsMusic);
     }
 
