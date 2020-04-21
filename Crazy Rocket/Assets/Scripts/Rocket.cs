@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    const float SPEED = 1.0f;
-    const float ROTATION_SPEED = 100.0f;
+    [SerializeField] private float thrustSpeed = 10f;
+    [SerializeField] private float rotationSpeed = 100f;
 
-    private Rigidbody rigidbody;
+    private Rigidbody rigidBody;
     private AudioSource audioSource;
     private ParticleSystem fire;
+
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         fire = GetComponentInChildren<ParticleSystem>();
+
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
     }
 
     // Update is called once per frame
@@ -27,14 +34,13 @@ public class Rocket : MonoBehaviour
 
     private void ProcessInput()
     {
-        var rotation = Time.deltaTime * ROTATION_SPEED;
-        var movement = SPEED;
+        var movement = thrustSpeed;
 
-        rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
+        rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
 
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidbody.AddRelativeForce(Vector3.up * movement);
+            rigidBody.AddRelativeForce(Vector3.up * movement);
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();
@@ -46,14 +52,32 @@ public class Rocket : MonoBehaviour
             fire.Stop(true);
         }
 
-        if(Input.GetKey(KeyCode.LeftArrow))
+        var rotation = Time.deltaTime * rotationSpeed;
+
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rigidbody.transform.Rotate(Vector3.forward * rotation);
-            rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+            rigidBody.transform.Rotate(Vector3.forward * rotation);
+            rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
         } else if(Input.GetKey(KeyCode.RightArrow)) {
-            rigidbody.transform.Rotate(-Vector3.forward * rotation);
-            rigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+            rigidBody.transform.Rotate(-Vector3.forward * rotation);
+            rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<DangerousElement>() != null)
+        {
+            Explode();
+        }
+    }
+
+    private void Explode()
+    {
+        transform.position = originalPosition;
+        transform.rotation = originalRotation;
+        rigidBody.angularVelocity = Vector3.zero;
+        rigidBody.velocity = Vector3.zero;
     }
 }
