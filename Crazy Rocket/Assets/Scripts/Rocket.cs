@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
@@ -11,19 +12,12 @@ public class Rocket : MonoBehaviour
     private AudioSource audioSource;
     private ParticleSystem fire;
 
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
-    
-
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         fire = GetComponentInChildren<ParticleSystem>();
-
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
     }
 
     // Update is called once per frame
@@ -71,13 +65,16 @@ public class Rocket : MonoBehaviour
         {
             Explode();
         }
+
+        var winLevel = collision.gameObject.GetComponent<WinLevel>();
+        if (winLevel != null)
+        {
+            winLevel.Win();
+        }
     }
 
     private void Explode()
     {
-        transform.position = originalPosition;
-        transform.rotation = originalRotation;
-        rigidBody.angularVelocity = Vector3.zero;
-        rigidBody.velocity = Vector3.zero;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
