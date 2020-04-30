@@ -23,7 +23,12 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessInput();
+        if (GameState.instance.IsPlayerActive()) {
+            ProcessInput();
+        } else
+        {
+            rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
 
     private void ProcessInput()
@@ -66,7 +71,7 @@ public class Rocket : MonoBehaviour
             Explode();
         }
 
-        var winLevel = collision.gameObject.GetComponent<WinLevel>();
+        var winLevel = collision.gameObject.GetComponent<Level>();
         if (winLevel != null)
         {
             winLevel.Win();
@@ -75,6 +80,6 @@ public class Rocket : MonoBehaviour
 
     private void Explode()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Level.current.ReloadLevel(); 
     }
 }

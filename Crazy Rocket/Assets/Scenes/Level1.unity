@@ -514,6 +514,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107032280}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1410369493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5007141627484370302, guid: 6336010c90f8543f7abf2863364bd936,
+    type: 3}
+  m_PrefabInstance: {fileID: 5007141625984360606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1410369494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410369493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c462a8f5ef1f4427982c65874db6df41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1613461850 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1581625422390761304, guid: 2976d9c62c6874f108ae69e5d96a3eb2,
@@ -963,10 +981,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 641618166, guid: 494a96c08d3374aecba69e3b0f726a4c, type: 3}
-      propertyPath: m_AngularDrag
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1744190838986213178, guid: 494a96c08d3374aecba69e3b0f726a4c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1515,7 +1529,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: LandingPlatform
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5007141627484370296, guid: 6336010c90f8543f7abf2863364bd936, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6336010c90f8543f7abf2863364bd936, type: 3}
 --- !u!1001 &7822774080756667785
 PrefabInstance:
