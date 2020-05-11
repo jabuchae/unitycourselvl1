@@ -8,10 +8,12 @@ public class Level : MonoBehaviour
     private float timeLeft = 0f;
     private float endLevelTime = 2.0f;
     private float startLevelTime = 1.0f;
+    private float dyingTime = 1.5f;
 
     void Start()
     {
         current = this;
+        GameState.instance.SetStatus(GameState.Status.StartLevel);
         timeLeft = startLevelTime;
     }
 
@@ -19,6 +21,12 @@ public class Level : MonoBehaviour
     {
         timeLeft = endLevelTime;
         GameState.instance.SetStatus(GameState.Status.WinLevel);
+    }
+
+    public void Die()
+    {
+        timeLeft = dyingTime;
+        GameState.instance.SetStatus(GameState.Status.Dying);
     }
 
     void Update()
@@ -32,6 +40,12 @@ public class Level : MonoBehaviour
         if (GameState.instance.GetStatus() == GameState.Status.StartLevel)
         {
             UpdateForStartLevel();
+            return;
+        }
+
+        if (GameState.instance.GetStatus() == GameState.Status.Dying)
+        {
+            UpdateForDying();
             return;
         }
     }
@@ -54,17 +68,22 @@ public class Level : MonoBehaviour
         }
     }
 
+    private void UpdateForDying()
+    {
+        timeLeft -= Time.deltaTime;
+        if (timeLeft < 0)
+        {
+            ReloadLevel();
+        }
+    }
+
     private void LoadNextLevel()
     {
-        timeLeft = startLevelTime;
-        GameState.instance.SetStatus(GameState.Status.StartLevel);
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
     }
 
     public void ReloadLevel()
     {
-        timeLeft = startLevelTime;
-        GameState.instance.SetStatus(GameState.Status.StartLevel);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

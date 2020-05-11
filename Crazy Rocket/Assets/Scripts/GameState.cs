@@ -30,6 +30,7 @@ public class GameState
             case Status.Pause:
             case Status.StartLevel:
             case Status.WinLevel:
+            case Status.Dying:
                 playerActive = false;
                 break;
             case Status.Playing:
@@ -46,6 +47,7 @@ public class GameState
         Playing,
         WinLevel,
         StartLevel,
+        Dying,
         Menu
     }
 }

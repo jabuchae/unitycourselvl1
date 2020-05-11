@@ -7,6 +7,9 @@ public class Rocket : MonoBehaviour
 {
     [SerializeField] private float thrustSpeed = 10f;
     [SerializeField] private float rotationSpeed = 100f;
+    [SerializeField] private AudioClip engineAudio;
+    [SerializeField] private AudioClip destroyAudio;
+    [SerializeField] private AudioClip winAudio;
 
     private Rigidbody rigidBody;
     private AudioSource audioSource;
@@ -33,53 +36,83 @@ public class Rocket : MonoBehaviour
 
     private void ProcessInput()
     {
-        var movement = thrustSpeed;
+        ProcessThrustInput();
 
-        rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
+        ProcessRotationInput();
 
-        if (Input.GetKey(KeyCode.Space))
-        {
-            rigidBody.AddRelativeForce(Vector3.up * movement);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-                fire.Play(true);
-            }
-        } else
-        {
-            audioSource.Stop();
-            fire.Stop(true);
-        }
+    }
 
+    private void ProcessRotationInput()
+    {
         var rotation = Time.deltaTime * rotationSpeed;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rigidBody.transform.Rotate(Vector3.forward * rotation);
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-        } else if(Input.GetKey(KeyCode.RightArrow)) {
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
             rigidBody.transform.Rotate(-Vector3.forward * rotation);
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
         }
+    }
 
+    private void ProcessThrustInput()
+    {
+        
+        rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Thrust();
+        }
+        else
+        {
+            DontThrust();
+        }
+    }
+    private void Thrust()
+    {
+        var thrustingForce = thrustSpeed;
+        rigidBody.AddRelativeForce(Vector3.up * thrustingForce);
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(engineAudio);
+            fire.Play(true);
+        }
+    }
+
+    private void DontThrust()
+    {
+        audioSource.Stop();
+        fire.Stop(true);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<DangerousElement>() != null)
         {
-            Explode();
+            if (GameState.instance.IsPlayerActive())
+            {
+                Explode();
+            }
         }
 
         var winLevel = collision.gameObject.GetComponent<Level>();
         if (winLevel != null)
         {
-            winLevel.Win();
+            if (GameState.instance.IsPlayerActive())
+            {
+                winLevel.Win();
+                audioSource.PlayOneShot(winAudio);
+            }
         }
     }
 
     private void Explode()
     {
-        Level.current.ReloadLevel(); 
+        audioSource.PlayOneShot(destroyAudio);
+        Level.current.Die();
     }
 }
