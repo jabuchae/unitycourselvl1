@@ -7,20 +7,23 @@ public class Rocket : MonoBehaviour
 {
     [SerializeField] private float thrustSpeed = 10f;
     [SerializeField] private float rotationSpeed = 100f;
+
     [SerializeField] private AudioClip engineAudio;
     [SerializeField] private AudioClip destroyAudio;
     [SerializeField] private AudioClip winAudio;
 
+    [SerializeField] private ParticleSystem engine;
+    [SerializeField] private ParticleSystem explosion;
+    [SerializeField] private ParticleSystem success;
+
     private Rigidbody rigidBody;
     private AudioSource audioSource;
-    private ParticleSystem fire;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        fire = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -79,14 +82,14 @@ public class Rocket : MonoBehaviour
         if (!audioSource.isPlaying)
         {
             audioSource.PlayOneShot(engineAudio);
-            fire.Play(true);
+            engine.Play(true);
         }
     }
 
     private void DontThrust()
     {
         audioSource.Stop();
-        fire.Stop(true);
+        engine.Stop(true);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -104,15 +107,24 @@ public class Rocket : MonoBehaviour
         {
             if (GameState.instance.IsPlayerActive())
             {
-                winLevel.Win();
-                audioSource.PlayOneShot(winAudio);
+                Win(winLevel);
             }
         }
     }
 
     private void Explode()
     {
+        DontThrust();
         audioSource.PlayOneShot(destroyAudio);
+        explosion.Play(true);
         Level.current.Die();
+    }
+
+    private void Win(Level level)
+    {
+        DontThrust();
+        success.Play(true);
+        level.Win();
+        audioSource.PlayOneShot(winAudio);
     }
 }
