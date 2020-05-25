@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 public class Level : MonoBehaviour
 {
     public static Level current;
+    [SerializeField] private float endLevelTime = 2.0f;
+    [SerializeField] private float startLevelTime = 1.0f;
+    [SerializeField] private GameObject platform;
+    [SerializeField] private Material launchpadMaterial;
 
     private float timeLeft = 0f;
-    private float endLevelTime = 2.0f;
-    private float startLevelTime = 1.0f;
     private float dyingTime = 1.5f;
 
     void Start()
@@ -20,6 +22,7 @@ public class Level : MonoBehaviour
     public void Win()
     {
         timeLeft = endLevelTime;
+        platform.GetComponent<Renderer>().material = launchpadMaterial;
         GameState.instance.SetStatus(GameState.Status.WinLevel);
     }
 

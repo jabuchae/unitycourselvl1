@@ -122,6 +122,7 @@ public class Rocket : MonoBehaviour
 
     private void Win(Level level)
     {
+        this.transform.parent = level.transform;
         DontThrust();
         success.Play(true);
         level.Win();
