@@ -138,6 +138,11 @@ public class Rocket : MonoBehaviour
 
     private void ProcessDebugInput()
     {
+        if (!Debug.isDebugBuild)
+        {
+            return;
+        }
+
         if (Input.GetKeyUp(KeyCode.L))
         {
             Level.current.LoadNextLevel();
