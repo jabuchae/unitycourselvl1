@@ -50,16 +50,15 @@ public class Rocket : MonoBehaviour
     private void ProcessRotationInput()
     {
         var rotation = Time.deltaTime * rotationSpeed;
+        rigidBody.angularVelocity = Vector3.zero;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rigidBody.transform.Rotate(Vector3.forward * rotation);
-            rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             rigidBody.transform.Rotate(-Vector3.forward * rotation);
-            rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
         }
     }
 
