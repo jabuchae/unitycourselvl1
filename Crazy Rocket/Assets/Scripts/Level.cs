@@ -12,28 +12,38 @@ public class Level : MonoBehaviour
     private float timeLeft = 0f;
     private float dyingTime = 1.5f;
 
+    private void SetTimeLeft(float newTimeLeft)
+    {
+        timeLeft = newTimeLeft;
+    }
+
     void Start()
     {
         current = this;
         GameState.instance.SetStatus(GameState.Status.StartLevel);
-        timeLeft = startLevelTime;
+        SetTimeLeft(startLevelTime);
     }
 
     public void Win()
     {
-        timeLeft = endLevelTime;
+        SetTimeLeft(endLevelTime);
         platform.GetComponent<Renderer>().material = launchpadMaterial;
         GameState.instance.SetStatus(GameState.Status.WinLevel);
     }
 
     public void Die()
     {
-        timeLeft = dyingTime;
+        SetTimeLeft(dyingTime);
         GameState.instance.SetStatus(GameState.Status.Dying);
     }
 
     void Update()
     {
+        if (LevelAnimation.skipAnimations)
+        {
+            timeLeft = Mathf.Min(0.1f, timeLeft);
+        }
+
         if (GameState.instance.GetStatus() == GameState.Status.WinLevel)
         {
             UpdateForWinLevel();
@@ -80,7 +90,7 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
     }

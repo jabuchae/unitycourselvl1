@@ -12,6 +12,8 @@ public class LevelAnimation : MonoBehaviour
     private float movementElapsed;
     private Vector3 initialPosition;
 
+    public static bool skipAnimations = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,11 @@ public class LevelAnimation : MonoBehaviour
     {
         if (GameState.instance.GetStatus() == animateWhen)
         {
+            if (LevelAnimation.skipAnimations)
+            {
+                transform.position = initialPosition + moveVector;
+                movementElapsed = 1;
+            }
             if (delay >= 0)
             {
                 delay -= Time.deltaTime;

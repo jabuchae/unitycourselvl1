@@ -18,6 +18,7 @@ public class Rocket : MonoBehaviour
 
     private Rigidbody rigidBody;
     private AudioSource audioSource;
+    private static bool collisionActive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,8 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ProcessDebugInput();
+
         if (GameState.instance.IsPlayerActive()) {
             ProcessInput();
         } else
@@ -42,7 +45,6 @@ public class Rocket : MonoBehaviour
         ProcessThrustInput();
 
         ProcessRotationInput();
-
     }
 
     private void ProcessRotationInput()
@@ -94,6 +96,11 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!collisionActive)
+        {
+            return;
+        }
+
         if (collision.gameObject.GetComponent<DangerousElement>() != null)
         {
             if (GameState.instance.IsPlayerActive())
@@ -127,5 +134,25 @@ public class Rocket : MonoBehaviour
         success.Play(true);
         level.Win();
         audioSource.PlayOneShot(winAudio);
+    }
+
+    private void ProcessDebugInput()
+    {
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            Level.current.LoadNextLevel();
+        }
+
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            Rocket.collisionActive = !Rocket.collisionActive;
+            Debug.Log("Collision Active: " + Rocket.collisionActive);
+        }
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            LevelAnimation.skipAnimations = !LevelAnimation.skipAnimations;
+            Debug.Log("Skip animations: " + LevelAnimation.skipAnimations);
+        }
     }
 }
