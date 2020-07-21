@@ -79,7 +79,9 @@ public class PlayerMovement : MonoBehaviour
     {
         foreach (GameObject gun in guns)
         {
-            gun.SetActive(active);
+            gun.GetComponent<AudioSource>().mute = !active;
+            var emissionModule = gun.GetComponent<ParticleSystem>().emission;
+            emissionModule.enabled = active;
         }
     }
 
