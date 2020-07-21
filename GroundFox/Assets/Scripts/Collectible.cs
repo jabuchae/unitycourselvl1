@@ -8,7 +8,7 @@ public class Collectible : MonoBehaviour
 
     private void Start()
     {
-        CapsuleCollider collider = gameObject.AddComponent<CapsuleCollider>();
+        SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         collider.isTrigger = true;
     }
 
