@@ -5,7 +5,7 @@ using UnityEngine;
 public class EndLevelBoss : MonoBehaviour
 {
     [SerializeField] private GameObject minePrefab;
-    [SerializeField] private float timeBetweenMines = 1.5f;
+    [SerializeField] private float timeBetweenMines = 3f;
     [SerializeField] private float difficultyRamp = 0.05f;
 
     private float mineTime;
@@ -21,8 +21,12 @@ public class EndLevelBoss : MonoBehaviour
 
         if (mineTime <= 0)
         {
-            mineTime = Mathf.Max(timeBetweenMines, 0f);
-            timeBetweenMines -= difficultyRamp;
+            mineTime = timeBetweenMines;
+            if (timeBetweenMines >= 1f)
+            {
+                timeBetweenMines -= difficultyRamp;
+            }
+            
             CreateMine();
         }
     }

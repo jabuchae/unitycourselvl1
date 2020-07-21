@@ -11,9 +11,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int scorePerKill = 7;
     [SerializeField] private int life = 3;
 
+    private AudioSource hitAudio;
+
     private void Start()
     {
         AddNonTriggerBoxCollider();
+        hitAudio = gameObject.GetComponent<AudioSource>();
     }
 
     private void AddNonTriggerBoxCollider()
@@ -24,6 +27,7 @@ public class Enemy : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        hitAudio.Play();
         life--;
         ScoreHit();
         if (life <= 0)
